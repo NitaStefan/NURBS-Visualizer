@@ -17,6 +17,8 @@ import ControlPoints from "./components/ControlPoints";
 import ShowLabel from "./components/ShowLabel";
 import Wvector from "./components/Wvector";
 import LatexBox from "./components/LatexBox";
+import CssBaseline from "@mui/material/CssBaseline";
+import "normalize.css";
 
 const App = () => {
   const [n, setN] = useState(-1);
@@ -383,6 +385,7 @@ const App = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Box
           sx={{
             width: "100%",
