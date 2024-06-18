@@ -17,6 +17,7 @@ import ControlPoints from "./components/ControlPoints";
 import ShowLabel from "./components/ShowLabel";
 import Wvector from "./components/Wvector";
 import LatexBox from "./components/LatexBox";
+import circleImg from "./assets/circle.png";
 import "normalize.css";
 
 const App = () => {
@@ -734,10 +735,10 @@ const App = () => {
                   />
                   <img
                     style={{
-                      height: "400px",
+                      height: "250px",
                       borderRadius: "10px",
                     }}
-                    src="src\assets\circle.png"
+                    src={circleImg}
                     alt="Example"
                   />
                   <LatexBox
