@@ -17,7 +17,6 @@ import ControlPoints from "./components/ControlPoints";
 import ShowLabel from "./components/ShowLabel";
 import Wvector from "./components/Wvector";
 import LatexBox from "./components/LatexBox";
-import CssBaseline from "@mui/material/CssBaseline";
 import "normalize.css";
 
 const App = () => {
@@ -385,7 +384,6 @@ const App = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <Box
           sx={{
             width: "100%",
@@ -810,8 +808,8 @@ const App = () => {
                         }
                       }}
                       sx={{
-                        width: 70,
-                        m: "0 20px",
+                        width: 45,
+                        m: "0 12px",
                         "& .MuiInputBase-input": {
                           fontSize: "2rem",
                           textAlign: "center",
@@ -841,8 +839,8 @@ const App = () => {
                           onMouseLeave={() => document.activeElement.blur()}
                           onChange={(event) => handleWChange(event, i)}
                           sx={{
-                            width: 80,
-                            m: "0 20px",
+                            width: 47,
+                            m: "0 12px",
                             "& .MuiInputBase-input": {
                               fontSize: "2rem",
                               textAlign: "center",
@@ -858,7 +856,7 @@ const App = () => {
                 )}
                 {value === 4 && (
                   <Button
-                    sx={{ height: 70, weight: 65 }}
+                    sx={{ height: 70, weight: 40 }}
                     onClick={() => setShowW(!showW)}
                   >
                     <Typography
@@ -965,7 +963,7 @@ const App = () => {
                                     document.activeElement.blur()
                                   }
                                   sx={{
-                                    width: 76,
+                                    width: 50,
                                     "& .MuiInputBase-input": {
                                       fontSize: "1.3rem",
                                       textAlign: "center",
@@ -978,7 +976,7 @@ const App = () => {
                                     },
                                     "& .MuiInputLabel-shrink": {
                                       transform:
-                                        "translate(60px, 5px) scale(0.75)",
+                                        "translate(38px, 5px) scale(0.75)",
                                     },
                                     "&:hover .MuiInputLabel-root": {
                                       display: "none",
@@ -1027,7 +1025,7 @@ const App = () => {
                       inputProps={{ step: 0.01 }}
                       onMouseLeave={() => document.activeElement.blur()}
                       sx={{
-                        width: 76,
+                        width: 45,
                         "& .MuiInputBase-input": {
                           fontSize: "1.3rem",
                           textAlign: "center",
@@ -1083,7 +1081,7 @@ const App = () => {
                       inputProps={{ step: 0.01 }}
                       onMouseLeave={() => document.activeElement.blur()}
                       sx={{
-                        width: 76,
+                        width: 45,
                         "& .MuiInputBase-input": {
                           fontSize: "1.3rem",
                           textAlign: "center",

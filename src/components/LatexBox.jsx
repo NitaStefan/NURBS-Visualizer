@@ -54,6 +54,7 @@ function LatexBox({ tex }) {
     <Box
       ref={containerRef}
       sx={{
+        fontSize: { xs: "1.3rem", lg: "1.5rem", xl: "1.9rem" },
         padding: 2,
         borderRadius: 1,
         display: "flex",

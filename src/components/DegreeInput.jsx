@@ -20,8 +20,8 @@ const DegreeInput = ({ handleChange, label, value, isBez }) => {
         }
       }}
       sx={{
-        width: 80,
-        m: "0 20px",
+        width: 48,
+        m: "0 10px",
         "& .MuiInputBase-input": {
           fontSize: "2rem",
           textAlign: "center",

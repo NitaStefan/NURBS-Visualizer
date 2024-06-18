@@ -12,7 +12,7 @@ const ControlPoints = ({ points, m, showLabel }) => {
             <mesh
               onPointerOver={(event) => {
                 event.stopPropagation();
-                showLabel([point[0], point[1], point[2], i, j]);
+                showLabel([point[0], point[1], point[2], null, i, j]);
               }}
               onPointerOut={(event) => {
                 event.stopPropagation();

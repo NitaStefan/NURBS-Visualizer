@@ -43,7 +43,7 @@ const Axis = ({ direction, label, length }) => {
         ]}
       >
         <Html>
-          <div style={{ color: "black", fontSize: "22px" }}>{label}</div>
+          <div style={{ color: "black", fontSize: "16px" }}>{label}</div>
         </Html>
       </Billboard>
     </>
