@@ -517,7 +517,7 @@ const App = () => {
                   />
                   <LatexBox
                     tex={
-                      "$\\rightarrow$ consequently, the knot vector has 2 knots of multiplicity $n$"
+                      "$\\rightarrow$ consequently, the knot vector has 2 knots of multiplicity $n+1$"
                     }
                   />
                   <LatexBox
