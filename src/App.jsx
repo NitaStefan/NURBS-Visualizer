@@ -1,39 +1,38 @@
-import { Canvas } from "@react-three/fiber";
-import NURBS from "./components/NURBS";
-import DegreeInput from "./components/DegreeInput";
-import "./App.css";
-import { Box, Tab, Tabs, Typography, TextField, Paper } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState, useEffect } from "react";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { degreesToRadians } from "./utils/convertAngle";
-import { getRandomNumber } from "./utils/getRandomNumber";
-import { areBothArraysNonDecreasing } from "./utils/areNonDecr";
-import { createMatrix } from "./utils/createMatrix";
-import { Button } from "@mui/material";
-import NumberedAxes from "./components/NumberedAxes ";
-import ControlPolygon from "./components/ControlPolygon";
-import ControlPoints from "./components/ControlPoints";
-import ShowLabel from "./components/ShowLabel";
-import Wvector from "./components/Wvector";
-import LatexBox from "./components/LatexBox";
-import circleImg from "./assets/circle.png";
-import "normalize.css";
+import { Canvas } from "@react-three/fiber"
+import NURBS from "./components/NURBS"
+import DegreeInput from "./components/DegreeInput"
+import "./App.css"
+import { Box, Tab, Tabs, Typography, TextField, Paper } from "@mui/material"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useState, useEffect } from "react"
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
+import { degreesToRadians } from "./utils/convertAngle"
+import { getRandomNumber } from "./utils/getRandomNumber"
+import { areBothArraysNonDecreasing } from "./utils/areNonDecr"
+import { createMatrix } from "./utils/createMatrix"
+import { Button } from "@mui/material"
+import NumberedAxes from "./components/NumberedAxes "
+import ControlPolygon from "./components/ControlPolygon"
+import ControlPoints from "./components/ControlPoints"
+import ShowLabel from "./components/ShowLabel"
+import Wvector from "./components/Wvector"
+import LatexBox from "./components/LatexBox"
+import circleImg from "./assets/circle.png"
+import "normalize.css"
 
 const App = () => {
-  const [n, setN] = useState(-1);
-  const [m, setM] = useState(-1);
-  const [p, setP] = useState(-1);
-  const [q, setQ] = useState(-1);
-  const [U, setU] = useState([]);
-  const [V, setV] = useState([]);
-  const [points, setPoints] = useState([]);
-  const [pointsMatrix, setPointsMatrix] = useState(null);
-  const [d, setD] = useState(2);
-  const [w, setW] = useState([1, 1.5, 0.5]);
-  const [visiblePoint, setVisiblePoint] = useState(null);
-  const [showW, setShowW] = useState(false);
-  const [value, setValue] = useState(0);
+  const [n, setN] = useState(-1)
+  const [m, setM] = useState(-1)
+  const [p, setP] = useState(-1)
+  const [q, setQ] = useState(-1)
+  const [U, setU] = useState([])
+  const [V, setV] = useState([])
+  const [points, setPoints] = useState([])
+  const [pointsMatrix, setPointsMatrix] = useState(null)
+  const [d, setD] = useState(2)
+  const [w, setW] = useState([1, 1.5, 0.5])
+  const [visiblePoint, setVisiblePoint] = useState(null)
+  const [showW, setShowW] = useState(false)
 
   const theme = createTheme({
     palette: {
@@ -44,18 +43,19 @@ const App = () => {
     typography: {
       fontFamily: "Pacifico, cursive",
     },
-  });
+  })
 
-  
+  const [value, setValue] = useState(0)
+
   const switchTabs = (event, newValue) => {
     if (n !== -1 && !newValue) {
-      setP(n);
+      setP(n)
     }
     if (m !== -1 && !newValue) {
-      setQ(m);
+      setQ(m)
     }
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
@@ -65,325 +65,324 @@ const App = () => {
         fontSize: "1.8rem",
         fontFamily: "Georgia, sans-serif",
       },
-    };
+    }
   }
 
-  const handleNChange = (event) => {
-    const newValue = event.target.value;
+  const handleNChange = event => {
+    const newValue = event.target.value
     if (Number(newValue) >= 1) {
       if (value === 0 || (p === -1 && value === 0) || p > newValue)
-        setP(parseInt(Number(newValue)));
-      setN(parseInt(Number(newValue)));
+        setP(parseInt(Number(newValue)))
+      setN(parseInt(Number(newValue)))
     } else if (newValue == "") {
-      setN(-1);
-      setP(-1);
+      setN(-1)
+      setP(-1)
     } else {
-      if (value === 0 || p === -1) setP(1);
-      setN(1);
+      if (value === 0 || p === -1) setP(1)
+      setN(1)
     }
-  };
-  const handleMChange = (event) => {
-    const newValue = event.target.value;
+  }
+  const handleMChange = event => {
+    const newValue = event.target.value
     if (Number(newValue) >= 1) {
       if (value === 0 || (q === -1 && value === 0) || q > newValue)
-        setQ(parseInt(Number(newValue)));
-      setM(parseInt(Number(newValue)));
+        setQ(parseInt(Number(newValue)))
+      setM(parseInt(Number(newValue)))
     } else if (newValue == "") {
-      setM(-1);
-      setQ(-1);
+      setM(-1)
+      setQ(-1)
     } else {
-      if (value === 0 || q === -1) setQ(1);
-      setM(1);
+      if (value === 0 || q === -1) setQ(1)
+      setM(1)
     }
-  };
-  const handlePChange = (event) => {
-    const newValue = event.target.value;
+  }
+  const handlePChange = event => {
+    const newValue = event.target.value
     if (Number(newValue) >= n) {
-      setP(parseInt(Number(n)));
+      setP(parseInt(Number(n)))
     } else if (Number(newValue) >= 1) {
-      setP(parseInt(Number(newValue)));
+      setP(parseInt(Number(newValue)))
     } else if (newValue == "") {
-      setP(-1);
+      setP(-1)
     } else {
-      setP(1);
+      setP(1)
     }
-  };
-  const handleQChange = (event) => {
-    const newValue = event.target.value;
+  }
+  const handleQChange = event => {
+    const newValue = event.target.value
     if (Number(newValue) >= m) {
-      setQ(parseInt(Number(m)));
+      setQ(parseInt(Number(m)))
     } else if (Number(newValue) >= 1) {
-      setQ(parseInt(Number(newValue)));
+      setQ(parseInt(Number(newValue)))
     } else if (newValue == "") {
-      setQ(-1);
+      setQ(-1)
     } else {
-      setQ(1);
+      setQ(1)
     }
-  };
-  const handleDChange = (event) => {
-    const newValue = event.target.value;
-    event.target.value = "";
-    setD(Number(newValue));
-  };
+  }
+  const handleDChange = event => {
+    const newValue = event.target.value
+    event.target.value = ""
+    setD(Number(newValue))
+  }
   const handleWChange = (event, i) => {
-    const newValue = event.target.value;
-    event.target.value = "";
-    const newW = [...w];
-    newW[i] = Number(newValue);
-    setW(newW);
-  };
+    const newValue = event.target.value
+    event.target.value = ""
+    const newW = [...w]
+    newW[i] = Number(newValue)
+    setW(newW)
+  }
   const changePoint = (event, i, j, coord) => {
     const pos = i * (m + 1) + j,
-      newValue = event.target.value;
-    event.target.value = "";
-    const newVisiblePoint = [...visiblePoint];
-    newVisiblePoint[coord] = Number(newValue);
-    setVisiblePoint(newVisiblePoint);
-    const newPoints = [...points];
-    newPoints[pos][coord] = Number(newValue);
+      newValue = event.target.value
+    event.target.value = ""
+    const newVisiblePoint = [...visiblePoint]
+    newVisiblePoint[coord] = Number(newValue)
+    setVisiblePoint(newVisiblePoint)
+    const newPoints = [...points]
+    newPoints[pos][coord] = Number(newValue)
     if (value === 4) {
-      if (coord < 3)
-        newPoints[pos + 1][coord] = Number(newValue) + d * w[coord];
-      else newPoints[pos + 1][coord] = Number(newValue);
+      if (coord < 3) newPoints[pos + 1][coord] = Number(newValue) + d * w[coord]
+      else newPoints[pos + 1][coord] = Number(newValue)
     }
     if (value === 6) {
       if (coord == 0) {
-        const d = newPoints[pos][coord];
-        newPoints[pos + m + 1][0] = d;
-        newPoints[pos + m + 1][1] = d;
+        const d = newPoints[pos][coord]
+        newPoints[pos + m + 1][0] = d
+        newPoints[pos + m + 1][1] = d
 
-        newPoints[pos + 2 * (m + 1)][1] = d;
+        newPoints[pos + 2 * (m + 1)][1] = d
 
-        newPoints[pos + 3 * (m + 1)][0] = -d;
-        newPoints[pos + 3 * (m + 1)][1] = d;
+        newPoints[pos + 3 * (m + 1)][0] = -d
+        newPoints[pos + 3 * (m + 1)][1] = d
 
-        newPoints[pos + 4 * (m + 1)][0] = -d;
+        newPoints[pos + 4 * (m + 1)][0] = -d
 
-        newPoints[pos + 5 * (m + 1)][0] = -d;
-        newPoints[pos + 5 * (m + 1)][1] = -d;
+        newPoints[pos + 5 * (m + 1)][0] = -d
+        newPoints[pos + 5 * (m + 1)][1] = -d
 
-        newPoints[pos + 6 * (m + 1)][1] = -d;
+        newPoints[pos + 6 * (m + 1)][1] = -d
 
-        newPoints[pos + 7 * (m + 1)][0] = d;
-        newPoints[pos + 7 * (m + 1)][1] = -d;
+        newPoints[pos + 7 * (m + 1)][0] = d
+        newPoints[pos + 7 * (m + 1)][1] = -d
 
-        newPoints[pos + 8 * (m + 1)][0] = d;
+        newPoints[pos + 8 * (m + 1)][0] = d
       } else if (coord === 2) {
-        const h = newPoints[pos][coord];
+        const h = newPoints[pos][coord]
         for (let t = 1; t <= 8; t++) {
-          newPoints[pos + t * (m + 1)][2] = h;
+          newPoints[pos + t * (m + 1)][2] = h
         }
       } else if (coord === 3) {
-        const w = newPoints[pos][coord];
+        const w = newPoints[pos][coord]
         for (let t = 1; t <= 8; t++) {
-          newPoints[pos + t * (m + 1)][3] = w * (t % 2 == 1 ? 0.7 : 1);
+          newPoints[pos + t * (m + 1)][3] = w * (t % 2 == 1 ? 0.7 : 1)
         }
       }
     }
-    setPoints(newPoints);
-  };
+    setPoints(newPoints)
+  }
   const changeKnotU = (event, ind) => {
-    const newKnot = Number(event.target.value);
-    event.target.value = "";
-    const newU = [...U];
-    newU[ind] = newKnot;
-    setU(newU);
-  };
+    const newKnot = Number(event.target.value)
+    event.target.value = ""
+    const newU = [...U]
+    newU[ind] = newKnot
+    setU(newU)
+  }
   const changeKnotV = (event, ind) => {
-    const newKnot = Number(event.target.value);
-    event.target.value = "";
-    const newV = [...V];
-    newV[ind] = newKnot;
-    setV(newV);
-  };
+    const newKnot = Number(event.target.value)
+    event.target.value = ""
+    const newV = [...V]
+    newV[ind] = newKnot
+    setV(newV)
+  }
 
   useEffect(() => {
     const calculateControlPoints = () => {
-      const factor = value === 3 ? 4 : 2;
-      const factorY = value === 5 ? 4 : 1;
-      const newPoints = [];
+      const factor = value === 3 ? 4 : 2
+      const factorY = value === 5 ? 4 : 1
+      const newPoints = []
       for (let i = 0; i <= n; i++) {
         for (let j = 0; j <= m; j++) {
-          let c0, c1, c2, c3;
-          const halfN = n / 2;
-          const halfM = m / 2;
+          let c0, c1, c2, c3
+          const halfN = n / 2
+          const halfM = m / 2
           if (value === 4) {
             if (j === 0) {
               c0 = parseFloat(
                 (factor * (-halfN + i + getRandomNumber(-0.45, 0.45))).toFixed(
                   2
                 )
-              );
+              )
               c1 = parseFloat(
                 (8 * (-halfM + j + getRandomNumber(-0.45, 0.45))).toFixed(2)
-              );
-              c2 = parseFloat(getRandomNumber(-0.5, 3.5).toFixed(2));
-              c3 = 1;
+              )
+              c2 = parseFloat(getRandomNumber(-0.5, 3.5).toFixed(2))
+              c3 = 1
             } else if (j === 1) {
-              const lastPoint = newPoints[i * (m + 1) + j - 1];
-              c0 = lastPoint[0] + d * w[0];
-              c1 = lastPoint[1] + d * w[1];
-              c2 = lastPoint[2] + d * w[2];
-              c3 = lastPoint[3];
+              const lastPoint = newPoints[i * (m + 1) + j - 1]
+              c0 = lastPoint[0] + d * w[0]
+              c1 = lastPoint[1] + d * w[1]
+              c2 = lastPoint[2] + d * w[2]
+              c3 = lastPoint[3]
             }
           } else if (value === 6) {
             if (i === 0) {
-              c0 = parseFloat(getRandomNumber(0, 3.5)).toFixed(2);
-              c1 = 0;
-              c2 = parseFloat(j * getRandomNumber(0.85, 1.15)).toFixed(2);
-              c3 = 1;
+              c0 = parseFloat(getRandomNumber(0, 3.5)).toFixed(2)
+              c1 = 0
+              c2 = parseFloat(j * getRandomNumber(0.85, 1.15)).toFixed(2)
+              c3 = 1
             } else if (i === 1) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = c1 = d;
-              c2 = newPoints[j][2];
-              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2);
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = c1 = d
+              c2 = newPoints[j][2]
+              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2)
             } else if (i === 2) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = 0;
-              c1 = d;
-              c2 = newPoints[j][2];
-              c3 = newPoints[j][3];
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = 0
+              c1 = d
+              c2 = newPoints[j][2]
+              c3 = newPoints[j][3]
             } else if (i === 3) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = -d;
-              c1 = d;
-              c2 = newPoints[j][2];
-              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2);
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = -d
+              c1 = d
+              c2 = newPoints[j][2]
+              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2)
             } else if (i === 4) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = -d;
-              c1 = 0;
-              c2 = newPoints[j][2];
-              c3 = newPoints[j][3];
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = -d
+              c1 = 0
+              c2 = newPoints[j][2]
+              c3 = newPoints[j][3]
             } else if (i === 5) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = -d;
-              c1 = -d;
-              c2 = newPoints[j][2];
-              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2);
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = -d
+              c1 = -d
+              c2 = newPoints[j][2]
+              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2)
             } else if (i === 6) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = 0;
-              c1 = -d;
-              c2 = newPoints[j][2];
-              c3 = newPoints[j][3];
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = 0
+              c1 = -d
+              c2 = newPoints[j][2]
+              c3 = newPoints[j][3]
             } else if (i === 7) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = d;
-              c1 = -d;
-              c2 = newPoints[j][2];
-              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2);
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = d
+              c1 = -d
+              c2 = newPoints[j][2]
+              c3 = parseFloat(newPoints[j][3] * 0.7).toFixed(2)
             } else if (i === 8) {
-              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2);
-              c0 = d;
-              c1 = 0;
-              c2 = newPoints[j][2];
-              c3 = newPoints[j][3];
+              const d = parseFloat(Math.abs(newPoints[j][0])).toFixed(2)
+              c0 = d
+              c1 = 0
+              c2 = newPoints[j][2]
+              c3 = newPoints[j][3]
             }
           } else {
             c0 = parseFloat(
               (factor * (-halfN + i + getRandomNumber(-0.45, 0.45))).toFixed(2)
-            );
+            )
             c1 = parseFloat(
               (
                 factor *
                 factorY *
                 (-halfM + j + getRandomNumber(-0.45, 0.45))
               ).toFixed(2)
-            );
-            c2 = parseFloat(getRandomNumber(-0.5, 3.5).toFixed(2));
-            c3 = 1;
+            )
+            c2 = parseFloat(getRandomNumber(-0.5, 3.5).toFixed(2))
+            c3 = 1
           }
-          newPoints.push([Number(c0), Number(c1), Number(c2), Number(c3)]);
+          newPoints.push([Number(c0), Number(c1), Number(c2), Number(c3)])
         }
       }
-      setPoints(newPoints);
+      setPoints(newPoints)
       if (value === 6)
-        setU([0, 0, 0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1, 1, 1]);
-    };
+        setU([0, 0, 0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1, 1, 1])
+    }
 
-    calculateControlPoints();
-  }, [n, m]);
+    calculateControlPoints()
+  }, [n, m])
 
-  (value === 0 || value === 1) && points.forEach((point) => (point[3] = 1));
+  ;(value === 0 || value === 1) && points.forEach(point => (point[3] = 1))
 
   useEffect(() => {
-    setPointsMatrix(createMatrix(points, n, m));
-  }, [points]);
+    setPointsMatrix(createMatrix(points, n, m))
+  }, [points])
 
   useEffect(() => {
     if (value !== 6) {
       if (n !== -1 && p !== -1) {
-        const vectorU = [];
+        const vectorU = []
         for (let i = 0; i <= n + p + 1; i++) {
-          if (i <= p) vectorU.push(0);
-          else if (i >= n + 1) vectorU.push(1);
-          else vectorU.push(parseFloat((i - p) * (1 / (n - p + 1)).toFixed(2)));
+          if (i <= p) vectorU.push(0)
+          else if (i >= n + 1) vectorU.push(1)
+          else vectorU.push(parseFloat((i - p) * (1 / (n - p + 1)).toFixed(2)))
         }
-        setU(vectorU);
+        setU(vectorU)
       }
     }
-  }, [p, n]);
+  }, [p, n])
   useEffect(() => {
     if (m !== -1 && q !== -1) {
-      const vectorV = [];
+      const vectorV = []
       for (let i = 0; i <= m + q + 1; i++) {
-        if (i <= q) vectorV.push(0);
-        else if (i >= m + 1) vectorV.push(1);
-        else vectorV.push(parseFloat((i - q) * (1 / (m - q + 1)).toFixed(2)));
+        if (i <= q) vectorV.push(0)
+        else if (i >= m + 1) vectorV.push(1)
+        else vectorV.push(parseFloat((i - q) * (1 / (m - q + 1)).toFixed(2)))
       }
-      setV(vectorV);
+      setV(vectorV)
     }
-  }, [q, m]);
-  const pointsToRender = points.map((point) => [
+  }, [q, m])
+  const pointsToRender = points.map(point => [
       Number(point[0]),
       Number(point[1]),
       Number(point[2]),
     ]),
-    weightsToRender = points.map((point) => Number(point[3]));
+    weightsToRender = points.map(point => Number(point[3]))
   useEffect(() => {
     if (value === 3) {
-      setN(1);
-      setM(1);
-      setP(1);
-      setQ(1);
+      setN(1)
+      setM(1)
+      setP(1)
+      setQ(1)
     } else if (value === 4) {
-      if (m === 1) setN((prev) => prev + 1);
-      setM(1);
-      setQ(1);
+      if (m === 1) setN(prev => prev + 1)
+      setM(1)
+      setQ(1)
     } else if (value === 5) {
-      setM(1);
-      setQ(1);
-      if (m === 1) setN((prev) => prev + 1);
+      setM(1)
+      setQ(1)
+      if (m === 1) setN(prev => prev + 1)
     } else if (value === 6) {
-      setU([0, 0, 0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1, 1, 1]);
-      setN(8);
-      setP(2);
+      setU([0, 0, 0, 0.25, 0.25, 0.5, 0.5, 0.75, 0.75, 1, 1, 1])
+      setN(8)
+      setP(2)
       m === -1
         ? (() => {
-            setM(1);
-            setQ(1);
+            setM(1)
+            setQ(1)
           })()
-        : setM((prev) => prev + 1);
+        : setM(prev => prev + 1)
     }
-    if (value !== 4) setShowW(false);
-  }, [value]);
+    if (value !== 4) setShowW(false)
+  }, [value])
   useEffect(() => {
-    const newPoints = [];
+    const newPoints = []
     for (let i = 0; i < (n + 1) * (m + 1); i++) {
       if (i % 2 === 0) {
-        newPoints.push(points[i]);
+        newPoints.push(points[i])
       } else {
         newPoints.push([
           points[i - 1][0] + d * w[0],
           points[i - 1][1] + d * w[1],
           points[i - 1][2] + d * w[2],
           points[i - 1][3],
-        ]);
+        ])
       }
     }
-    setPoints(newPoints);
-  }, [d, w]);
+    setPoints(newPoints)
+  }, [d, w])
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -802,12 +801,12 @@ const App = () => {
                       variant="standard"
                       inputProps={{ min: 0, step: 0.5 }}
                       onChange={handleDChange}
-                      onKeyPress={(event) => {
+                      onKeyPress={event => {
                         if (event.key === "-" || event.key === "+") {
-                          event.preventDefault();
+                          event.preventDefault()
                         }
                         if (event.key === "Enter") {
-                          event.target.blur();
+                          event.target.blur()
                         }
                       }}
                       sx={{
@@ -823,7 +822,7 @@ const App = () => {
                       }}
                     />
                     {w.map((val, i) => {
-                      const labels = ["x", "y", "z"];
+                      const labels = ["x", "y", "z"]
                       return (
                         <TextField
                           key={i}
@@ -832,15 +831,15 @@ const App = () => {
                           label={`Set W${labels[i]}`}
                           variant="standard"
                           inputProps={{ step: 0.2 }}
-                          onKeyDown={(event) => {
+                          onKeyDown={event => {
                             if (event.key === "-") {
-                              event.preventDefault();
-                              const newValue = -val;
-                              handleWChange({ target: { value: newValue } }, i);
+                              event.preventDefault()
+                              const newValue = -val
+                              handleWChange({ target: { value: newValue } }, i)
                             }
                           }}
                           onMouseLeave={() => document.activeElement.blur()}
-                          onChange={(event) => handleWChange(event, i)}
+                          onChange={event => handleWChange(event, i)}
                           sx={{
                             width: 47,
                             m: "0 12px",
@@ -853,7 +852,7 @@ const App = () => {
                             },
                           }}
                         />
-                      );
+                      )
                     })}
                   </>
                 )}
@@ -911,7 +910,7 @@ const App = () => {
                                 null,
                                 i,
                                 j,
-                              ]);
+                              ])
                             }}
                             onMouseLeave={() => setVisiblePoint(null)}
                           >
@@ -932,7 +931,7 @@ const App = () => {
                               </Typography>
                             </Paper>
                             {point.map((coord, index) => {
-                              const labels = ["x", "y", "z", "w"];
+                              const labels = ["x", "y", "z", "w"]
                               return (
                                 <TextField
                                   label={labels[index]}
@@ -946,20 +945,20 @@ const App = () => {
                                         value === 3)) ||
                                     (value === 6 && index === 1)
                                   }
-                                  onChange={(event) =>
+                                  onChange={event =>
                                     changePoint(event, i, j, index)
                                   }
                                   inputProps={{ step: index === 3 ? 1 : 0.1 }}
-                                  onKeyDown={(event) => {
+                                  onKeyDown={event => {
                                     if (event.key === "-") {
-                                      event.preventDefault();
-                                      const newValue = -Number(coord);
+                                      event.preventDefault()
+                                      const newValue = -Number(coord)
                                       changePoint(
                                         { target: { value: newValue } },
                                         i,
                                         j,
                                         index
-                                      );
+                                      )
                                     }
                                   }}
                                   onMouseLeave={() =>
@@ -986,7 +985,7 @@ const App = () => {
                                     },
                                   }}
                                 />
-                              );
+                              )
                             })}
                           </Box>
                         ))}
@@ -1011,19 +1010,19 @@ const App = () => {
                       key={index}
                       value={knot}
                       disabled={value === 0 || value === 3 || value === 6}
-                      onChange={(event) => changeKnotU(event, index)}
+                      onChange={event => changeKnotU(event, index)}
                       onBlur={() => {
-                        const newKnot = knot;
+                        const newKnot = knot
                         if (index + 1 < U.length && U[index + 1] < newKnot)
                           changeKnotU(
                             { target: { value: U[index + 1] } },
                             index
-                          );
+                          )
                         else if (index - 1 >= 0 && U[index - 1] > newKnot)
                           changeKnotU(
                             { target: { value: U[index - 1] } },
                             index
-                          );
+                          )
                       }}
                       inputProps={{ step: 0.01 }}
                       onMouseLeave={() => document.activeElement.blur()}
@@ -1046,7 +1045,7 @@ const App = () => {
                         },
                       }}
                     />
-                  );
+                  )
                 })}
             </Box>
             <Box
@@ -1067,19 +1066,19 @@ const App = () => {
                       disabled={
                         value === 0 || value === 3 || value === 4 || value === 5
                       }
-                      onChange={(event) => changeKnotV(event, index)}
+                      onChange={event => changeKnotV(event, index)}
                       onBlur={() => {
-                        const newKnot = knot;
+                        const newKnot = knot
                         if (index + 1 < V.length && V[index + 1] < newKnot)
                           changeKnotV(
                             { target: { value: V[index + 1] } },
                             index
-                          );
+                          )
                         else if (index - 1 >= 0 && V[index - 1] > newKnot)
                           changeKnotV(
                             { target: { value: V[index - 1] } },
                             index
-                          );
+                          )
                       }}
                       inputProps={{ step: 0.01 }}
                       onMouseLeave={() => document.activeElement.blur()}
@@ -1102,14 +1101,14 @@ const App = () => {
                         },
                       }}
                     />
-                  );
+                  )
                 })}
             </Box>
           </Box>
         </Box>
       </ThemeProvider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
