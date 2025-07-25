@@ -4,7 +4,7 @@ import DegreeInput from "./components/DegreeInput";
 import "./App.css";
 import { Box, Tab, Tabs, Typography, TextField, Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { degreesToRadians } from "./utils/convertAngle";
 import { getRandomNumber } from "./utils/getRandomNumber";
@@ -33,6 +33,8 @@ const App = () => {
   const [w, setW] = useState([1, 1.5, 0.5]);
   const [visiblePoint, setVisiblePoint] = useState(null);
   const [showW, setShowW] = useState(false);
+  const [value, setValue] = useState(0);
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -44,7 +46,7 @@ const App = () => {
     },
   });
 
-  const [value, setValue] = useState(0);
+  
   const switchTabs = (event, newValue) => {
     if (n !== -1 && !newValue) {
       setP(n);
